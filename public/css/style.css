@@ -1,0 +1,49 @@
+form.form-inline{
+	display: inline-block;
+}
+
+.card-body{
+	background-color: sandybrown;
+	margin-bottom: 10px;
+	margin-top: 10px;
+	height: 120px;
+	overflow: auto;
+}
+
+
+.btn-width{
+	width: 545px;
+}
+.btn-width2{
+	width: 552px;
+}
+
+
+div form input.deleteCommet{
+	display: inline-block ;
+	float: right;
+	margin-bottom: -15px;
+	padding-bottom: -10px;
+}
+
+.bd-placeholder-img {
+font-size: 1.125rem;
+text-anchor: middle;
+-webkit-user-select: none;
+-moz-user-select: none;
+user-select: none;
+}
+
+@media (min-width: 768px) {
+.bd-placeholder-img-lg {
+  font-size: 3.5rem;
+}
+}
+
+ul li a.activeDir{
+color: white;
+font-size: 100px;
+
+}
+
+
