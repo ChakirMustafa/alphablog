@@ -12,7 +12,7 @@ form.form-inline{
 
 
 .btn-width{
-	width: 545px;
+	width: 530px;
 }
 .btn-width2{
 	width: 552px;
@@ -46,4 +46,8 @@ font-size: 100px;
 
 }
 
+div div.img-index{
+	margin-left: -80px;
+	text-align: justify;
+}
 

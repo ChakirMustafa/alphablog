@@ -53,15 +53,50 @@ class PostController extends BaseController {
 	public function store()
 	{
 		$data = $_POST;
+		$data['user_id'] = getUserId();
+		$res = $this->Post->store($data);
 
-		$result = $this->Post->store($data);
+		#var_dump($res);die();
+		if ($res) {
+			$resCopy = $this->saveAvatar($data['id']);
+	
+		
+			if ($resCopy['success']) {
+				$resAvatar = $resCopy['filename'];
+				#var_dump($data['id'],$resAvatar);die();
+				$this->Post->addAvatar($data['id'],$resAvatar);
+			}
+		}
+		
 		redirect('/');	
 	}
+
+/*		public function store()
+	{
+		$data = $_POST;
+		$data['user_id'] = getUserId();
+
+		$res = $this->saveAvatar($data['id']);
+		#var_dump($res['success']);die();
+		if ($res['success']) {
+			$data['filename'] = $res['filename'];
+			var_dump($data);die();
+			$this->Post->store($data);
+		}
+		
+		redirect('/');	
+	}*/
 
 	public function save()
 	{
 		$data = $_POST;
-		$this->Post->save($data);
+		$data['user_id'] = getUserId();
+		$res = $this->Post->save($data);
+		if ($res['success']) {
+			$resAvatar = $this->saveAvatar($res['id']);
+			$resAvatarName = $resAvatar['filename'];
+			$this->Post->addAvatar($res['id'],$resAvatarName);
+		}
 		redirect('/');
 	}
 
@@ -69,5 +104,61 @@ class PostController extends BaseController {
 	{
 		$this->Post->delete($postId);
 		redirect('/');
+	}
+
+	private function saveAvatar($id)
+	{
+		$result = [
+			'message'  => 'THE IMAGE IS SUCCESSFULLY SAVED',
+			'success' => true,
+			'filename' => ''
+		];
+
+		if (empty($_FILES)) {
+			$result = [
+			'message'  => 'NO FILE UPLOADED',
+			'success' => false
+			];
+			return $result;
+		}
+
+		$FILE = $_FILES['avatar'];
+
+		if (!is_uploaded_file($FILE['tmp_name'])) {
+			$result = [
+			'message'  => 'THE FILE IS NOT UPLOADED VIA HTTP',
+			'success' => false
+			];
+			return $result;
+		}
+
+		
+	    $finfo = finfo_open(FILEINFO_MIME);
+	    $info =  finfo_file($finfo , $FILE['tmp_name']);
+
+	    if(stristr($info ,'image/jpeg') === false){
+	        $result['message'] = 'THE UPLOADED FILE IS NOT JPEG';
+	        return $result;
+	    }
+		
+		$fileSize = getConfig('fileSize');
+		if ($FILE['size'] > $fileSize) {
+			$result = [
+			'message'  => 'THE FILE IS UPLOADED TOO BIG',
+			'success' => false
+			];
+			return $result;
+		}
+		$avatarDir = getConfig('avatarDir');
+		#var_dump($avatarDir);die();
+		$filename = $id.'.'. str_replace('.', '', microtime(true)).'.jpg';
+		if (!move_uploaded_file($FILE['tmp_name'], $avatarDir.$filename)) {
+			$result = [
+				'result'   => 'THE FILE WAS NOT SAVED',
+				'success' => false
+			];
+		}
+		$result['filename'] = $filename;
+		return $result;
 	}
 }

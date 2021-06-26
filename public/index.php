@@ -15,8 +15,8 @@
 	} catch (\PDOException $e) {
 	    echo $e->getMessage();
 	} catch (\Exception $e){
-	       echo $e->getMessage();
-}
+	   echo $e->getMessage();
+	}
 
 
 

@@ -32,7 +32,7 @@
         
             <?php if (loggedIn()): ?>
               <li class="nav-item">
-                <p class="nav-link" style="color: white;">Welcome <?= getUserName()?>&nbsp;</p>
+                <span class="nav-link" style="color: white;">Welcome <?= getUserName()?>&nbsp;</span>
               </li>
               <li>
                 <div class="dropdown">
@@ -42,7 +42,7 @@
                   <ul class="dropdown-menu dropdown-menu-dark" aria-labelledby="dropdownMenuButton2">
                     <li> <a class="dropdown-item" aria-current="page" href="/posts">Posts</a></li>
                     <li> <a class="dropdown-item" href="/post/create">New Post</a></li>
-                    
+                    <li> <a class="dropdown-item" href="/auth/<?=getUserId()?>/formsignup">Edit account</a></li>
                     <li><hr class="dropdown-divider"></li>
                     <li class="nav-item center">
                       <form action="/auth/logout" method="post">

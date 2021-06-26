@@ -8,7 +8,7 @@ use \PDO;
 class Post {
 
 	protected $conn;
-	
+
 	function __construct(PDO $conn)
 	{
 		$this->conn = $conn;
@@ -43,36 +43,60 @@ class Post {
 
 	public function save(array $data =[])
 	{
-		#var_dump($data);die();
-		$sql  = "INSERT INTO posts (title, message, created_at) VALUES(:title, :message, :created_at)";
+		$result = [
+        'id' => 0,
+        'success' => false,
+        'message' => 'PROBLEM SAVING USER',
+    	];
+		#var_dump((int)$_SESSION['user']['id']);die();
+		$sql  = "INSERT INTO posts (title, message, user_id, created_at) VALUES(:title, :message, :user_id, :created_at)";
 		$stm = $this->conn->prepare($sql);
 		$stm->execute([
 			'title' 	=> $data['title'],
 			'message' 	=> $data['text'],
-			#'user_id' 	=> 1,
+			'user_id' 	=> $data['user_id'],
 			'created_at' => date('Y-m-d H-i-s'),
 		]);
-		$res = $stm->rowCount();
-		#var_dump($res);die();
-		return $res;
+
+	    if($stm) {
+        $result['id'] = $this->conn->lastInsertId();
+       	$result['message'] = 'POST WAS SUCCESSFULLY SAVED';
+        $result['success'] = 1;
+	    } else {
+	        $result['message'] = $this->conn->error;
+	    }
+	    return  $result;
 	}
 
-	public function store($data)
+	public function addAvatar($id, $resAvatar)
 	{
-		$sql = "UPDATE posts SET title =:title, message =:message, updated_at =:updated_at WHERE id =:id";
+		$sql  = "UPDATE posts SET avatar=:avatar WHERE id =:id";
 		$stm = $this->conn->prepare($sql);
 		$stm->execute([
-			'id' => $data['id'],
-			'title' => $data['title'],
-			'message' => $data['text'],
-			'updated_at' => date('Y-m-d H-i-s')
-		
+			'id' 	 => $id,
+			'avatar' => $resAvatar,
 		]);
-		if ($stm->errorCode()) {
-			return $stm->errorCode();
-		}else{
-			return $stm->rowCount();
-		}
+
+		return $stm->rowCount();
+	}
+
+	public function store(array $data)
+	{ 
+		#var_dump($data);die();
+		$sql = "UPDATE posts SET title =:title, message =:message, updated_at =:updated_at, ";
+		
+		$sql .=" user_id=:user_id WHERE id =:id";
+		$stm = $this->conn->prepare($sql);
+		$stm->execute([
+			'id' 		=> $data['id'],
+			'title' 	=> $data['title'],
+			'message' 	=> $data['text'],
+			'updated_at'=> date('Y-m-d H-i-s'),
+			'user_id' 	=> $data['user_id'],
+		]);
+	
+		return $stm->rowCount();
+		
 		
 	}
 

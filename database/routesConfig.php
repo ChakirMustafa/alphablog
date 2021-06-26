@@ -12,6 +12,7 @@
 				'post/:postId/edit' 	=> 'App\Controllers\PostController@edit',
 				'auth/formsignup'		=> 'App\Controllers\AuthController@formsignup',
 				'auth/showLogin'		=> 'App\Controllers\AuthController@showLogin',
+				'auth/:id/formsignup'		=> 'App\Controllers\AuthController@edit',
 			],
 			'POST' => [
 				'post/save' 				=> 'App\Controllers\PostController@save',

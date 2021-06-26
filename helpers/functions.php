@@ -23,17 +23,23 @@ function getEmailUser(){
 }
 
 function getUserRole(){
-	return $_SESSION['user']['role']?? '';
+	return $_SESSION['user']['roletype']?? '';
 }
 
 function getAdminRole(){
-	return $_SESSION['user']['role'] === 'admin';
+	return $_SESSION['user']['roletype'] === 'admin';
 }
 
 function loggedIn(){
 	return $_SESSION['logged']?? false;
 }
 
-function getUseId(){
+function getUserId(){
 	return $_SESSION['user']['id']?? '';
+}
+
+
+function getConfig($params, $default = null){
+	$config = require('../database/config.php');
+	return array_key_exists($params, $config)? $config[$params] : $default;
 }

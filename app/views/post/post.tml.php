@@ -26,7 +26,7 @@
 			<label for="email">Email</label>
 			<input required="" type="Email" name="email" class="form-control" placeholder="Your email!">
 			<label for="comment">Comment</label>
-			<textarea required="" name="comment" class="form-control" placeholder="Your comment!"></textarea>
+			<textarea required="" name="comment" class="form-control" placeholder="Add a public comment..."></textarea>
 			<button class="btn btn-info btn-width mt-3">Save comment</button>
 		</form>
 		<?php 

@@ -1,5 +1,5 @@
-<h2 align="center">NEW POST</h2>
-<form action="/post/save" method="post">
+<h3 align="center">NEW POST</h3>
+<form action="/post/save" method="post" enctype="multipart/form-data">
 	<div class="row">
 		<div class="from-group">
 			<div class="col-sm-8 offset-2">
@@ -11,6 +11,12 @@
 			<div class="col-sm-8 offset-2">
 				<label for="text">Text</label>
 				<textarea name="text" id="text" rows="10" class="form-control" placeholder="Enter the text"></textarea>
+			</div>
+		</div>
+		<div class="from-group">
+			<div class="col-sm-8 offset-2">
+				<label for="avatar">Image</label>
+				<input type="file" name="avatar" id="avatr" accept="image/jpeg" class="form-control">
 			</div>
 		</div>&nbsp;
 		<div class="from-group">

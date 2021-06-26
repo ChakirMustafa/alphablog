@@ -41,4 +41,17 @@ class Session {
 		}
 		return $result;	
 	}
+
+		public function userById($id)
+	{
+		$result = [];
+		$sql = "SELECT * FROM users WHERE id = :id";
+		$stm = $this->conn->prepare($sql);
+		$stm->execute(['id' => $id]);
+
+		if ($stm) {
+			$result = $stm->fetch(PDO::FETCH_OBJ);
+		}
+		return $result;	
+	}
 }

@@ -119,6 +119,15 @@ class AuthController extends BaseController {
 		$this->content = view('session/formsignup');
 	}
 
+	public function edit($id)
+	{
+		$user = $this->Log->userById($id);
+		$user = (array)$user;
+		$this->content = view('session/formsignup', [
+			'user' => $user
+		]);
+	}
+
 	public function signup()
 	{
 		$data = $_POST;
