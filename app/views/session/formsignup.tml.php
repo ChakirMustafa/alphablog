@@ -8,8 +8,9 @@ if (empty($user)) {
 
 	];
 }
+ $loggedIn = $_SESSION['logged']?? '';
 ?>
-<h2 align="center"><?= $_SESSION['logged']? 'EDIT ACCOUNT' : 'SIGNUP'?></h2>
+<h2 align="center"><?=  $loggedIn? 'EDIT ACCOUNT' : 'SIGNUP'?></h2>
 <form action="/auth/signup" method="post">
 	<div class="row">
 		<div class="from-group">
