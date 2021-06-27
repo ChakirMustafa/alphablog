@@ -23,6 +23,6 @@ class CommentController extends BaseController {
 	public function deleteComment($postid)
 	{
 		$this->Comment->delete($postid);
-		redirect('/');
+		redirect("/");
 	}
 }

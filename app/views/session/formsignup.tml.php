@@ -9,7 +9,7 @@ if (empty($user)) {
 	];
 }
 ?>
-<h2 align="center">SIGNUP</h2>
+<h2 align="center"><?= $_SESSION['logged']? 'EDIT ACCOUNT' : 'SIGNUP'?></h2>
 <form action="/auth/signup" method="post">
 	<div class="row">
 		<div class="from-group">
@@ -38,7 +38,8 @@ if (empty($user)) {
 		</div>&nbsp;
 		<div class="from-group">
 			<div class="col-sm-6 offset-3">
-				<input type="submit" class="btn btn-success" value="<?= $user['id']? 'Edit account' : 'Signup'?>">
+				<input type="submit" class="btn btn-success btn-width2" value="<?= $user['id']? 'Edit account' : 'Signup'?>">
+				<p><small>Are you already registered?<a href="/auth/showLogin">Login</a></small></p>
 			</div>
 		</div>
 	</div>

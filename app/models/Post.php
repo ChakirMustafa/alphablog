@@ -82,7 +82,6 @@ class Post {
 
 	public function store(array $data)
 	{ 
-		#var_dump($data);die();
 		$sql = "UPDATE posts SET title =:title, message =:message, updated_at =:updated_at, ";
 		
 		$sql .=" user_id=:user_id WHERE id =:id";

@@ -2,6 +2,13 @@ form.form-inline{
 	display: inline-block;
 }
 
+nav{
+	background-color: #2b4570;
+}
+.dropdown{
+	margin-right: 20px;
+}
+
 .card-body{
 	background-color: sandybrown;
 	margin-bottom: 10px;
@@ -49,5 +56,26 @@ font-size: 100px;
 div div.img-index{
 	margin-left: -80px;
 	text-align: justify;
+}
+div div p a{
+	text-decoration: none;
+}
+
+
+nav ul div button.btn-color{
+	background-color: #223759;
+	opacity: 1;
+	border:  none;
+
+}
+nav ul div button.btn-color:hover{
+	background-color: #223759;
+	color: white;
+	border: none;
+	
+}
+
+nav ul div ul.bg-dropdown{
+	background-color: #223759;
 }
 

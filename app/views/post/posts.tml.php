@@ -26,7 +26,7 @@ foreach ($posts as $post):
 		</div>
 		<div class="col-sm-8 img-index">
 			<h6><a href="post/<?=$post->id?>"><?=strtoupper($post->title)?></a></h6>
-			<p><?= substr($post->message, 0,390)  ?><a href="post/<?=$post->id?>"> >>></a></p>
+			<p><?= substr($post->message, 0,400)?><a href="post/<?=$post->id?>">  ...read more</a></p>
 		</div>
 	</div>
 	<hr>

@@ -35,7 +35,6 @@ class PostController extends BaseController {
 		$post = $this->Post->find($postId);
 		$comment = new Comments($this->conn);
 		$comments = $comment->allComments($postId);
-		#var_dump($comments);die();
 		$this->content = view('post/post', compact('post', 'comments'));
 	}
 
@@ -56,7 +55,6 @@ class PostController extends BaseController {
 		$data['user_id'] = getUserId();
 		$res = $this->Post->store($data);
 
-		#var_dump($res);die();
 		if ($res) {
 			$resCopy = $this->saveAvatar($data['id']);
 	
@@ -70,22 +68,6 @@ class PostController extends BaseController {
 		
 		redirect('/');	
 	}
-
-/*		public function store()
-	{
-		$data = $_POST;
-		$data['user_id'] = getUserId();
-
-		$res = $this->saveAvatar($data['id']);
-		#var_dump($res['success']);die();
-		if ($res['success']) {
-			$data['filename'] = $res['filename'];
-			var_dump($data);die();
-			$this->Post->store($data);
-		}
-		
-		redirect('/');	
-	}*/
 
 	public function save()
 	{
@@ -150,7 +132,6 @@ class PostController extends BaseController {
 			return $result;
 		}
 		$avatarDir = getConfig('avatarDir');
-		#var_dump($avatarDir);die();
 		$filename = $id.'.'. str_replace('.', '', microtime(true)).'.jpg';
 		if (!move_uploaded_file($FILE['tmp_name'], $avatarDir.$filename)) {
 			$result = [

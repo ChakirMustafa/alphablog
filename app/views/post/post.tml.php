@@ -3,19 +3,17 @@
 	
 		<h3><?=htmlentities($post->title)?></h3>
 		<p><?=htmlentities($post->message)?></p>
-
+		<?php if (loggedIn()): ?>
 		<div class="from-group">
 			<form class="form-inline" action="/post/<?=$post->id?>/edit" method="GET">
-				
-					<input type="submit" value ="Update" class="btn btn-success btn-sm">
-				
+				<button class="btn btn-success btn-sm"><i class="fas fa-edit"></i> UPDATE</button>
+
 			</form>
 			<form class="form-inline" action="/post/<?=$post->id?>/delete" method="POST">
-				
-					<input onclick="return confirm('Are you sure you want to delete the post <?=$post->id?> ?')"; type="submit" value ="Delete" class="btn btn-danger btn-sm">
-				
+				<button onclick="return confirm('Are you sure you want to delete the post <?=$post->id?> ?')" class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> DELETE</button>
 			</form>
 		</div>
+	<?php endif ?>
 	</div>
 </div>
 <div class="row">

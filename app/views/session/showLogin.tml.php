@@ -29,6 +29,7 @@
 		<div class="from-group">
 			<div class="col-sm-6 offset-3">
 				<input type="submit" class="btn btn-success btn-width2" value="Login">
+				<p><small>You don't have an account yet?<a href="/auth/formsignup"> Signup</a></small></p>
 			</div>
 		</div>
 	</div>
