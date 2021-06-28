@@ -1,4 +1,4 @@
-<h3 align="center">EDIT POST</h3>
+<h3 align="center">UPDATE POST</h3>
 <form action="/post/store" method="post" enctype="multipart/form-data">
 	<input type="hidden" name="id" value="<?=$post->id?>">
 	<div class="row">
