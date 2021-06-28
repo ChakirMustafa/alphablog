@@ -1,10 +1,9 @@
 <?php
-	require_once('../App/Models/Session.php');
 
 function view($view, array $data = []){
 	extract($data);
 	ob_start();
-	require("../app/views/$view.tml.php");
+	require("app/views/$view.tml.php");
 	$data = ob_get_contents();
 	ob_end_clean();
 	return $data;
@@ -40,6 +39,6 @@ function getUserId(){
 
 
 function getConfig($params, $default = null){
-	$config = require('../database/config.php');
+	$config = require('database/config.php');
 	return array_key_exists($params, $config)? $config[$params] : $default;
 }

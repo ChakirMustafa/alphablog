@@ -9,7 +9,7 @@ class BaseController
 {
 	protected $content = 'Chakir Mustapha';
 	protected $conn;
-	protected $template = '../resources/template.php';
+	protected $template = 'resources/template.php';
 
 
 	public function __construct(PDO $conn)
