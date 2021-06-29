@@ -1,8 +1,7 @@
 <?php
 namespace App\DB;
 
-class DbPdo
-{
+class DbPdo {
 	private $conn;
 	protected static $instance;
 
