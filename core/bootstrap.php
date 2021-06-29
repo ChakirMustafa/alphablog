@@ -14,7 +14,7 @@ function loadClass($className){
 
     $filename3 = $dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.$filename2;
     $filename2 = $dir.DIRECTORY_SEPARATOR.$filename2;
-    $filename1 = $dir.DIRECTORY_SEPARATOR.$filename;
+    $filename1 = $dir.DIRECTORY_SEPARATOR.$filename1;
      if(file_exists($filename1)){
         require $filename1;
      } elseif (file_exists($filename2)){
