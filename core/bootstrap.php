@@ -11,7 +11,7 @@ function loadClass($className){
     ).'.php';
     $filename1 = str_replace('\\', DIRECTORY_SEPARATOR, $filename1);
      #die($dir.DIRECTORY_SEPARATOR.$filename1);
-    $filename2 = str_replace('app','', $filename1);
+    $filename2 = str_replace('app\\','', $filename1);
     #die($dir.DIRECTORY_SEPARATOR.$filename2);
     $filename3 = $dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.$filename2;
 
