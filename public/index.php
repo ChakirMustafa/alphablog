@@ -7,7 +7,8 @@ $options = require  'database/config.php';
 $ruotes  = require 	'database/routesConfig.php';
 try {
 	# CONNECTION DB
-	$conn = App\db\DbPdo::getInstance($options)->getConn();
+	$dbPdo = App\DB\DbPdo::getInstance($options);
+	$conn = $dbPdo->getConn();
 	
 	# CLASS ROUTE
 	$router = new Route($conn);

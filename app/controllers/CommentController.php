@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 use \PDO;
-use App\Models\Comments;
+use App\Models\Comment;
 
 class CommentController extends BaseController {
 
@@ -10,7 +10,7 @@ class CommentController extends BaseController {
 
 	public function __construct(\PDO $conn){
 		parent::__construct($conn);
-		$this->Comment = new Comments($conn);
+		$this->Comment = new Comment($conn);
 	}
 
 	public function save($postid)
