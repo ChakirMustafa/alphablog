@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use \PDO;
-class Comments {
+class Comment {
 
 	protected $conn;
 

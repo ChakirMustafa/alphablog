@@ -5,7 +5,7 @@ namespace App\Controllers;
  * @author mustafa chakir
 */
 use App\Models\Post;
-use App\Models\Comments;
+use App\Models\Comment;
 use \PDO;
 
 
@@ -19,6 +19,7 @@ class PostController extends BaseController {
 	{
 		parent::__construct($conn);
 		$this->Post = new Post($conn);
+		$this->Comment = new Comment($this->conn);
 	}
 
 
@@ -33,8 +34,7 @@ class PostController extends BaseController {
 	public function show($postId)
 	{
 		$post = $this->Post->find($postId);
-		$comment = new Comments($this->conn);
-		$comments = $comment->allComments($postId);
+		$comments = $this->Comment->allComments($postId);
 		$this->content = view('post/post', compact('post', 'comments'));
 	}
 
