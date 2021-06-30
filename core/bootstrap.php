@@ -15,7 +15,7 @@ function loadClass($className){
     $filename2 = str_replace('app','',$filename1);
 
     $filename3 = $dir.DIRECTORY_SEPARATOR.'core'.DIRECTORY_SEPARATOR.$filename2;
-
+   
     $filename2 = $dir.DIRECTORY_SEPARATOR.$filename2;
 
     $filename1 = $dir.DIRECTORY_SEPARATOR.$filename1;
@@ -25,7 +25,7 @@ function loadClass($className){
      } elseif (file_exists($filename2)){
         require $filename2;
      }else{
-        require $filename3;
+         require $filename3;
      }
 }
 spl_autoload_register('loadClass');

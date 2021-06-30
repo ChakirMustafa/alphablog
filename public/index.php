@@ -7,11 +7,9 @@ $options = require  'database/config.php';
 $ruotes  = require 	'database/routesConfig.php';
 
 try {
-	# CONNECTION DB
-	$dbPdo = App\DB\DbPdo::getInstance($options);
-	$conn = $dbPdo->getConn();
 
-	# CLASS ROUTE
+	$conn = App\db\DbPdo::getInstance($options)->getConn();
+	
 	$router = new Route($conn);
 	$router->loudRoutes($ruotes['routes']);
 	
@@ -21,10 +19,3 @@ try {
 } catch (\PDOException $e) {
     echo $e->getMessage();
 }
-
-
-
-	
-
-
-

@@ -5,7 +5,7 @@
 		if (!empty($_SESSION['message'])) {
 			$message = $_SESSION['message'];
 			$alertType = $_SESSION['success']? 'success' : 'danger';
-			require('../app/views/notice.php');
+			require('app/views/notice.php');
 			unset($_SESSION['message']);
 		} ?>
 	</div>
