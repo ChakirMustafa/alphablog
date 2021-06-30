@@ -24,7 +24,7 @@ function loadClass($className){
         require $filename1;
      } elseif (file_exists($filename2)){
         require $filename2;
-     }elseif(file_exists($filename3))  {
+     }else{
         require $filename3;
      }
 }

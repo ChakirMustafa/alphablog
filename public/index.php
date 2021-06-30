@@ -8,7 +8,7 @@ $ruotes  = require 	'database/routesConfig.php';
 
 try {
 	# CONNECTION DB
-	$dbPdo = __DIR__.\App\DB\DbPdo::getInstance($options);
+	$dbPdo = App\DB\DbPdo::getInstance($options);
 	$conn = $dbPdo->getConn();
 
 	# CLASS ROUTE
@@ -20,8 +20,6 @@ try {
 	
 } catch (\PDOException $e) {
     echo $e->getMessage();
-} catch (\Exception $e){
-   echo $e->getMessage();
 }
 
 
