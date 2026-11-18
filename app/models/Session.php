@@ -10,12 +10,11 @@ class Session {
 	{
 		$this->conn= $conn;
 	}
-	public function save(array $data)
+	public function save(array $data): int
 	{	
-		$password = $data['password'];
-		$password = password_hash($password, PASSWORD_DEFAULT);
+		$password = password_hash($data['password'], PASSWORD_DEFAULT);
 		$sql  = "INSERT INTO users (username, email, password, roletype) ";
-		$sql .= "VALUES(:username, :email, :password, :roletype)";
+		$sql .= "VALUES(:username, :email, :password, 'user')";
 
 		$stm = $this->conn->prepare($sql);
 
@@ -23,10 +22,9 @@ class Session {
 			'username' 	=> $data['username'],
 			'email' 	=> $data['email'],
 			'password' 	=> $password,
-			'roletype' 	=> $data['roletype'],
 		]);
 
-		return $stm->rowCount();
+		return (int)$this->conn->lastInsertId();
 	}
 
 	public function userByEmail($email)

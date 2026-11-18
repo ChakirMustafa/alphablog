@@ -1,54 +1,64 @@
 <?php
 
 namespace App\Models;
-use \PDO;
-class Comment {
 
-	protected $conn;
+use PDO;
 
-	public function __construct(\PDO $conn)
+class Comment
+{
+	protected PDO $conn;
+
+	public function __construct(PDO $conn)
 	{
 		$this->conn = $conn;
 	}
 
-	public function allComments($id)
+	public function allComments($postId): array
 	{
-		$result = [];
-		$sql = "SELECT * FROM comments WHERE postid = :id";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			':id' => $id
+		$stmt = $this->conn->prepare(
+			'SELECT id, post_id, comment, datecreated, email, user_id
+			 FROM postscomments
+			 WHERE post_id = :post_id
+			 ORDER BY datecreated DESC, id DESC'
+		);
+		$stmt->execute(['post_id' => (int)$postId]);
+
+		return $stmt->fetchAll(PDO::FETCH_OBJ);
+	}
+
+	public function saveComment(int $postId, array $data, ?int $userId = null): bool
+	{
+		$stmt = $this->conn->prepare(
+			'INSERT INTO postscomments (post_id, comment, datecreated, email, user_id)
+			 VALUES (:post_id, :comment, :datecreated, :email, :user_id)'
+		);
+
+		return $stmt->execute([
+			'post_id' => $postId,
+			'comment' => trim($data['comment']),
+			'datecreated' => date('Y-m-d H:i:s'),
+			'email' => trim($data['email']),
+			'user_id' => $userId,
 		]);
-
-		return $stm->fetchAll();
-		
 	}
 
-	public function saveComment($postid, $data)
+	public function find($commentId)
 	{
-		$postid = intval($postid);
-		$sql = "INSERT INTO comments (postid, message, created_at, email) VALUES(:postid, :message, :created_at, :email)";
+		$stmt = $this->conn->prepare('SELECT * FROM postscomments WHERE id = :id');
+		$stmt->execute(['id' => (int)$commentId]);
 
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			'postid' 	=> $postid,
-			'message' 	=> $data['comment'],
-			'created_at'=> date('Y-m-d H-i-s'),
-			'email' 	=> $data['email'],
-		]);
-
-		return $stm->rowCount();
+		return $stmt->fetch(PDO::FETCH_OBJ);
 	}
 
-	public function delete($id)
+	public function delete($commentId, int $userId, bool $isAdmin = false): bool
 	{
-		$id = intval($id);
-		$sql = "DELETE FROM comments WHERE id =:id";
-		$stm = $this->conn->prepare($sql);
+		$sql = 'DELETE FROM postscomments WHERE id = :id';
+		$params = ['id' => (int)$commentId];
+		if (!$isAdmin) {
+			$sql .= ' AND user_id = :user_id';
+			$params['user_id'] = $userId;
+		}
 
-		$stm->execute(['id' => $id]);
-
-		return $stm->rowCount();
+		return $this->conn->prepare($sql)->execute($params);
 	}
-
 }

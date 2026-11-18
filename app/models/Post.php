@@ -1,112 +1,86 @@
-<?php 
+<?php
 
 namespace App\Models;
-use \PDO;
-/**
- * @Author Mustafa chakir
- */
-class Post {
 
-	protected $conn;
+use PDO;
 
-	function __construct(PDO $conn)
+class Post
+{
+	protected PDO $conn;
+
+	public function __construct(PDO $conn)
 	{
 		$this->conn = $conn;
 	}
 
-	public function all()
+	public function all(): array
 	{
-		$result = [];
-		$sql = "SELECT * FROM posts";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute();
-		if ($stm) {
-			$result = $stm->fetchAll(PDO::FETCH_OBJ);
-		}
-		return $result;
+		$sql = 'SELECT posts.*, users.username AS author,
+				(SELECT COUNT(*) FROM postscomments WHERE postscomments.post_id = posts.id) AS comment_count
+			FROM posts
+			LEFT JOIN users ON users.id = posts.user_id
+			ORDER BY posts.datecreated DESC, posts.id DESC';
+
+		return $this->conn->query($sql)->fetchAll(PDO::FETCH_OBJ);
 	}
 
 	public function find($id)
 	{
-		$result = [];
-
-		$sql  = "SELECT * FROM posts WHERE id = :id";
+		$sql = 'SELECT posts.*, users.username AS author,
+				(SELECT COUNT(*) FROM postscomments WHERE postscomments.post_id = posts.id) AS comment_count
+			FROM posts
+			LEFT JOIN users ON users.id = posts.user_id
+			WHERE posts.id = :id';
 		$stmt = $this->conn->prepare($sql);
+		$stmt->execute(['id' => (int)$id]);
 
-		$stmt->execute(['id' => $id]);
+		return $stmt->fetch(PDO::FETCH_OBJ);
+	}
 
-		if ($stmt) {
-			$result = $stmt->fetch(PDO::FETCH_OBJ);
+	public function create(array $data, int $userId): int
+	{
+		$sql = 'INSERT INTO posts (title, message, user_id, datecreated)
+			VALUES (:title, :message, :user_id, :datecreated)';
+		$stmt = $this->conn->prepare($sql);
+		$stmt->execute([
+			'title' => trim($data['title']),
+			'message' => trim($data['text']),
+			'user_id' => $userId,
+			'datecreated' => date('Y-m-d H:i:s'),
+		]);
+
+		return (int)$this->conn->lastInsertId();
+	}
+
+	public function update(array $data, int $userId, bool $isAdmin = false): bool
+	{
+		$sql = 'UPDATE posts SET title = :title, message = :message WHERE id = :id';
+		$params = [
+			'id' => (int)$data['id'],
+			'title' => trim($data['title']),
+			'message' => trim($data['text']),
+		];
+
+		if (!$isAdmin) {
+			$sql .= ' AND user_id = :user_id';
+			$params['user_id'] = $userId;
 		}
-		return $result;
+
+		$stmt = $this->conn->prepare($sql);
+		return $stmt->execute($params);
 	}
 
-	public function save(array $data =[])
+	public function delete($id, int $userId, bool $isAdmin = false): bool
 	{
-		$result = [
-        'id' => 0,
-        'success' => false,
-        'message' => 'PROBLEM SAVING USER',
-    	];
-		#var_dump((int)$_SESSION['user']['id']);die();
-		$sql  = "INSERT INTO posts (title, message, user_id, created_at) VALUES(:title, :message, :user_id, :created_at)";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			'title' 	=> $data['title'],
-			'message' 	=> $data['text'],
-			'user_id' 	=> $data['user_id'],
-			'created_at' => date('Y-m-d H-i-s'),
-		]);
+		$sql = 'DELETE FROM posts WHERE id = :id';
+		$params = ['id' => (int)$id];
 
-	    if($stm) {
-        $result['id'] = $this->conn->lastInsertId();
-       	$result['message'] = 'POST WAS SUCCESSFULLY SAVED';
-        $result['success'] = 1;
-	    } else {
-	        $result['message'] = $this->conn->error;
-	    }
-	    return  $result;
-	}
+		if (!$isAdmin) {
+			$sql .= ' AND user_id = :user_id';
+			$params['user_id'] = $userId;
+		}
 
-	public function addAvatar($id, $resAvatar)
-	{
-		$sql  = "UPDATE posts SET avatar=:avatar WHERE id =:id";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			'id' 	 => $id,
-			'avatar' => $resAvatar,
-		]);
-
-		return $stm->rowCount();
-	}
-
-	public function store(array $data)
-	{ 
-		$sql = "UPDATE posts SET title =:title, message =:message, updated_at =:updated_at, ";
-		
-		$sql .=" user_id=:user_id WHERE id =:id";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			'id' 		=> $data['id'],
-			'title' 	=> $data['title'],
-			'message' 	=> $data['text'],
-			'updated_at'=> date('Y-m-d H-i-s'),
-			'user_id' 	=> $data['user_id'],
-		]);
-	
-		return $stm->rowCount();
-		
-		
-	}
-
-	public function delete($id)
-	{
-		$sql = "DELETE FROM posts WHERE id =:id";
-		$stm = $this->conn->prepare($sql);
-		$stm->execute([
-			'id' => $id,
-		]);
-
-		return $stm->rowCount();
+		$stmt = $this->conn->prepare($sql);
+		return $stmt->execute($params);
 	}
 }
