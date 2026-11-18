@@ -11,6 +11,7 @@ function view($view, array $data = []){
 
 function redirect($url = '/'){
 	header("Location:$url");
+	exit;
 }
 
 function getUserName(){
