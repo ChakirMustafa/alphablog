@@ -16,8 +16,8 @@ SET time_zone = "+00:00";
 --
 -- Database: `alphablog`
 --
-CREATE DATABASE IF NOT EXISTS `freeblog` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
-USE `freeblog`;
+CREATE DATABASE IF NOT EXISTS `alphablog` DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci;
+USE `alphablog`;
 
 -- --------------------------------------------------------
 
