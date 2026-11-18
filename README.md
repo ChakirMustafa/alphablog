@@ -42,7 +42,7 @@ symfony serve
 
 Then open `http://127.0.0.1:8000`.
 
-## Demo login
+## test login user
 
 - Email: `demo@alphablog.test`
 - Password: `DemoBlog123!`
